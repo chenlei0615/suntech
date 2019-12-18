@@ -2,6 +2,7 @@ package com.suntech.feo.service;
 
 import com.suntech.feo.dtos.SysUserDTO;
 import com.suntech.feo.entity.SysUserEntity;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 
 /**
@@ -18,6 +19,7 @@ public interface SysUserService {
      * @param id
      * @return
      */
+    @Cacheable(key = "'user_'+#id",value = "user")
     SysUserDTO findById(String id);
 
     /**

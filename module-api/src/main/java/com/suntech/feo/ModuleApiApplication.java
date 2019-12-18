@@ -2,6 +2,7 @@ package com.suntech.feo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -14,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ComponentScan(basePackages = {"com.suntech.feo.*"})
 @Import({SecurityConfig.class})
+@EnableCaching
 public class ModuleApiApplication {
 
 	public static void main(String[] args) {

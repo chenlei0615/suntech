@@ -5,8 +5,6 @@ import com.suntech.feo.dtos.SysUserDTO;
 import com.suntech.feo.entity.SysUserEntity;
 import com.suntech.feo.repository.SysUserRepository;
 import com.suntech.feo.service.SysUserService;
-import com.suntech.feo.utils.JSONUtils;
-import com.suntech.feo.utils.RedisConstants;
 import com.suntech.feo.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,18 +43,28 @@ public class SysUserServiceImpl implements SysUserService {
      * @param id
      * @return
      */
+//    @Override
+//    public SysUserDTO findById(String id) {
+//        SysUserDTO sysUserDTO = null;
+//         if(redisUtils.get(RedisConstants.CACHE_USER_PREFIX.concat(id)) !=null){
+//             sysUserDTO = JSONUtils.fromJson(redisUtils.get(RedisConstants.CACHE_USER_PREFIX.concat(id)),SysUserDTO.class);
+//         }else{
+//             SysUserEntity userEntity= sysUserRepository.findById(id).orElse(null);
+//             if(userEntity !=null){
+//                 BeanUtils.copyProperties(userEntity,sysUserDTO);
+//                 redisUtils.set(RedisConstants.CACHE_USER_PREFIX.concat(id),JSONUtils.objectToJson(userEntity));
+//             }
+//         }
+//        return sysUserDTO;
+//    }
+
     @Override
     public SysUserDTO findById(String id) {
-        SysUserDTO sysUserDTO = null;
-         if(redisUtils.get(RedisConstants.CACHE_USER_PREFIX.concat(id)) !=null){
-             sysUserDTO = JSONUtils.fromJson(redisUtils.get(RedisConstants.CACHE_USER_PREFIX.concat(id)),SysUserDTO.class);
-         }else{
-             SysUserEntity userEntity= sysUserRepository.findById(id).orElse(null);
-             if(userEntity !=null){
-                 BeanUtils.copyProperties(userEntity,sysUserDTO);
-                 redisUtils.set(RedisConstants.CACHE_USER_PREFIX.concat(id),JSONUtils.objectToJson(userEntity));
-             }
-         }
+        SysUserDTO sysUserDTO = new SysUserDTO();
+        SysUserEntity userEntity = sysUserRepository.findById(id).orElse(null);
+        if (userEntity != null) {
+            BeanUtils.copyProperties(userEntity, sysUserDTO);
+        }
         return sysUserDTO;
     }
 
