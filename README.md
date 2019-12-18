@@ -18,7 +18,9 @@ module-suntech-dto
 ****  业务层 ****
 module-suntech-fn
 
-项目技术栈 ：springboot jpa springsecurity  mysql redis swagger
+项目技术栈 ：springboot jpa springsecurity jwt mysql redis swagger docker 
+
+环境 jdk 1.8  
 
 本地swagger文档地址  localhost:8080/doc.html
 
