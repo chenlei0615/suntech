@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @Project : suntech
  * @Package Name : com.suntech.feo.controller
@@ -24,8 +26,8 @@ public class OpenController {
 
     @SkipToken
     @GetMapping("hello/{name}")
-    public BaseResponse<String> hello(@PathVariable String name){
-        String result =  " HELLO " +name + ", Welcome to 量资云码!";
+    public BaseResponse<String> hello(@NotNull(message = "用户名字不能为空") @PathVariable("name") String name){
+        String result =  " Hello " +name + ", Welcome to Sun-tech !";
         return new BaseResponse<>(ResultCode.SUCCESS, result);
     }
 
