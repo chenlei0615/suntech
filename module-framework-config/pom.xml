@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.suntech.feo</groupId>
+    <artifactId>module-framework-config</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>module-framework-config</name>
+    <description>配置文件</description>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.suntech.feo</groupId>
+        <artifactId>sun-tech</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+                <excludes>
+                    <exclude>dev/*</exclude>
+                    <exclude>gray/*</exclude>
+                    <exclude>local/*</exclude>
+                    <exclude>prod/*</exclude>
+                    <exclude>test/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${package.environment}</directory>
+                <!--是否替换资源中的属性-->
+                <filtering>true</filtering>
+                <includes>
+                    <include>configs.properties</include>
+                    <include>logback-suntech.xml</include>
+                    <include>spy.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>utf-8</encoding>
+                        <useDefaultDelimiters>true</useDefaultDelimiters>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+
+    </build>
+
+</project>
