@@ -26,6 +26,7 @@
         <module>module-framework-security</module>
         <module>module-suntech-dto</module>
         <module>module-suntech-fn</module>
+        <module>module-suntech-task</module>
     </modules>
 
     <properties>

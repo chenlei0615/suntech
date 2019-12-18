@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/module-framework-security/module-framework-security.iml" filepath="$PROJECT_DIR$/module-framework-security/module-framework-security.iml" />
       <module fileurl="file://$PROJECT_DIR$/module-suntech-dto/module-suntech-dto.iml" filepath="$PROJECT_DIR$/module-suntech-dto/module-suntech-dto.iml" />
       <module fileurl="file://$PROJECT_DIR$/module-suntech-fn/module-suntech-fn.iml" filepath="$PROJECT_DIR$/module-suntech-fn/module-suntech-fn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-suntech-task/module-suntech-task.iml" filepath="$PROJECT_DIR$/module-suntech-task/module-suntech-task.iml" />
       <module fileurl="file://$PROJECT_DIR$/sun-tech.iml" filepath="$PROJECT_DIR$/sun-tech.iml" />
     </modules>
   </component>

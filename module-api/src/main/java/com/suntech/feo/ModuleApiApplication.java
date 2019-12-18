@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan(basePackages = {"com.suntech.feo.*"})
-@Import({SecurityConfig.class})
+@Import({SecurityConfig.class,TaskApplication.class})
 @EnableCaching
 public class ModuleApiApplication {
 
