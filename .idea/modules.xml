@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/module-api/module-api.iml" filepath="$PROJECT_DIR$/module-api/module-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-framework-cache/module-framework-cache.iml" filepath="$PROJECT_DIR$/module-framework-cache/module-framework-cache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-framework-config/module-framework-config.iml" filepath="$PROJECT_DIR$/module-framework-config/module-framework-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-framework-core/module-framework-core.iml" filepath="$PROJECT_DIR$/module-framework-core/module-framework-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-framework-security/module-framework-security.iml" filepath="$PROJECT_DIR$/module-framework-security/module-framework-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-suntech-dto/module-suntech-dto.iml" filepath="$PROJECT_DIR$/module-suntech-dto/module-suntech-dto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-suntech-fn/module-suntech-fn.iml" filepath="$PROJECT_DIR$/module-suntech-fn/module-suntech-fn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sun-tech.iml" filepath="$PROJECT_DIR$/sun-tech.iml" />
+    </modules>
+  </component>
+</project>
