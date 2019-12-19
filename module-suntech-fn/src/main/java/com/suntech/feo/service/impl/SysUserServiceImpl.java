@@ -105,4 +105,21 @@ public class SysUserServiceImpl implements SysUserService {
         };
         return sysUserRepository.findAll(specification,pageable);
     }
+
+    @Override
+    public SysUserDTO login(String username, String password) {
+        SysUserEntity userEntity = sysUserRepository.findByUsername(username);
+        if(userEntity == null){
+            userEntity = new SysUserEntity();
+            userEntity.setUsername(username);
+            userEntity.setCity("shanghai");
+            userEntity.setCountry("china");
+            userEntity.setLanguage("cn");
+            userEntity.setTelephone("18171665544");
+            userEntity = sysUserRepository.save(userEntity);
+        }
+        SysUserDTO dto = new SysUserDTO();
+        BeanUtils.copyProperties(userEntity,dto);
+        return dto;
+    }
 }

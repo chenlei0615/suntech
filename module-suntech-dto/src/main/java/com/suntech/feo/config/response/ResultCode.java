@@ -15,9 +15,8 @@ public enum ResultCode {
     ,BIND_ERROR(400,"参数不合法")
     ,NO_TOKEN(401,"无token，请重新登录")
     ,ERROR_TOKEN(401,"token异常，请重新登陆")
-    ,BACKEND_EXCEPTION(501,"招聘系统异常")
-    ,YET_SEND_POST(10010,"已经投递过该岗位，会有HR联系您")
-    ,POST_OVERDUE(10011,"岗位已经下架，欢迎选择其他岗位")
+    ,IP_NOT_PERMIT(501,"IP address is not permit")
+    ,REPEAT_SUBMIT(601,"请勿重复提交!")
 
     ;
 

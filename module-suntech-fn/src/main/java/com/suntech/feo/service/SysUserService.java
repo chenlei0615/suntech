@@ -39,4 +39,6 @@ public interface SysUserService {
      * @return
      */
     Page<SysUserEntity> findByCity1(String city, Integer page, Integer size);
+
+    SysUserDTO login(String username, String password);
 }

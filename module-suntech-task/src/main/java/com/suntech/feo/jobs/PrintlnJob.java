@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class PrintlnJob {
     private static final Logger logger = LoggerFactory.getLogger(PrintlnJob.class);
 
-    @Scheduled(cron = "0/5 * * * * ?")
+//    @Scheduled(cron = "0/5 * * * * ?")
     public void printlnLog(){
         System.out.println("当前时间 :"+ DateUtil.getCurrentDateString(DateUtil.DATETIME_PATTERN));
     }

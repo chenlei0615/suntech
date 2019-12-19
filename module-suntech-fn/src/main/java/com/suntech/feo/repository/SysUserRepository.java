@@ -21,4 +21,6 @@ public interface SysUserRepository extends JpaRepository<SysUserEntity,String>, 
     @Query(value = "select new com.suntech.feo.dtos.SysUserDTO(e.id,e.nickName,e.openId,e.avatarUrl," +
             "e.gender,e.country,e.province,e.city,e.language,e.telephone,e.username) from SysUserEntity e where e.city = ?1 and e.deleted = false")
     Page<SysUserDTO> findAllAndDeletedFalse(String city, Pageable pageable);
+
+    SysUserEntity findByUsername(String username);
 }

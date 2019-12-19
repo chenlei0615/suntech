@@ -3,6 +3,8 @@ package com.suntech.feo.config.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Project : suntech
@@ -15,6 +17,15 @@ import lombok.Data;
 @ApiModel(value = "BaseResponse", description = "API接口的返回对象")
 @Data
 public class BaseResponse<T> {
+
+    private static final Logger logger = LoggerFactory.getLogger(BaseResponse.class);
+    public static final int CODE_OK = 200;
+
+    /**
+     * 是否请求成功
+     */
+    private boolean success;
+
     /**
      * 是否成功
      */
@@ -59,4 +70,65 @@ public class BaseResponse<T> {
         this.msg = msg;
     }
 
+    /**
+     * 提供成功的静态方法，方便使用
+     * @return
+     */
+    public static BaseResponse success(){
+        return success(null);
+    }
+    /**
+     * 提供成功的静态方法，方便使用
+     * @param data 希望作为返回值输出的结果对象
+     * @return
+     *                  返回success为true的相应对象
+     */
+    public static BaseResponse success(Object data){
+        BaseResponse BaseResponse = new BaseResponse();
+        BaseResponse.setSuccess(true);
+        BaseResponse.setCode(CODE_OK);
+        BaseResponse.setData(data);
+        BaseResponse.setMsg("success");
+
+        if(logger.isDebugEnabled()){
+            logger.debug("输出响应：{}", BaseResponse.toString());
+        }
+        return BaseResponse;
+    }
+
+
+    /**
+     * 提供失败对象的静态方法，方便输出
+     * @return
+     */
+    public static BaseResponse failed(){
+        BaseResponse BaseResponse = new BaseResponse();
+        BaseResponse.setSuccess(false);
+        BaseResponse.setCode(500);
+        BaseResponse.setMsg("异常");
+        return BaseResponse;
+    }
+
+    /**
+     * 提供失败对象的静态方法，方便输出
+     * @param code  错误码
+     * @param msg   错误消息
+     * @return
+     */
+    public static BaseResponse failed(int code, String msg){
+        BaseResponse BaseResponse = new BaseResponse();
+        BaseResponse.setSuccess(false);
+        BaseResponse.setCode(code);
+        BaseResponse.setMsg(msg);
+        return BaseResponse;
+    }
+    /**
+     * 提供失败对象的静态方法，方便输出
+     * @param resultCode  结果枚举对象
+     * @return
+     */
+    public static BaseResponse failed(ResultCode resultCode){
+        return failed(resultCode.getCode(),resultCode.getMsg());
+    }
+    
 }
