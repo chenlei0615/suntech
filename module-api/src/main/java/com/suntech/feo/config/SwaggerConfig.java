@@ -53,7 +53,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("量资云码系统API文档")
-                .version("1.0")
+                .version("1.0.0")
                 .build();
     }
 
