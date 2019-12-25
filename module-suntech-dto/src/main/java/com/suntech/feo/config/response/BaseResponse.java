@@ -22,9 +22,9 @@ public class BaseResponse<T> {
     public static final int CODE_OK = 200;
 
     /**
-     * 是否请求成功
+     * 是否请求成功 默认成功
      */
-    private boolean success;
+    private boolean success = true;
 
     /**
      * 是否成功
