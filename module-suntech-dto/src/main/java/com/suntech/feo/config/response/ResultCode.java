@@ -11,10 +11,10 @@ package com.suntech.feo.config.response;
 public enum ResultCode {
     SUCCESS(Result.SUCCESS,"成功")
     ,ERROR(Result.ERROR,"系统错误")
-    ,FORBIDDEN(403,"token失效")
-    ,BIND_ERROR(400,"参数不合法")
+    ,BIND_ERROR(400,"请求失败")
     ,NO_TOKEN(401,"无token，请重新登录")
-    ,ERROR_TOKEN(401,"token异常，请重新登陆")
+    ,ERROR_TOKEN(402,"token异常，请重新登陆")
+    ,FORBIDDEN(403,"用户验证失败")
     ,IP_NOT_PERMIT(501,"IP address is not permit")
     ,REPEAT_SUBMIT(601,"请勿重复提交!")
 
