@@ -12,7 +12,7 @@ public enum ResultCode {
     SUCCESS(Result.SUCCESS,"成功")
     ,ERROR(Result.ERROR,"系统错误")
     ,BIND_ERROR(400,"请求失败")
-    ,NO_TOKEN(401,"无token，请重新登录")
+    ,AUTH_FAILED(401,"认证失败")
     ,ERROR_TOKEN(402,"token异常，请重新登陆")
     ,FORBIDDEN(403,"用户验证失败")
     ,IP_NOT_PERMIT(501,"IP address is not permit")

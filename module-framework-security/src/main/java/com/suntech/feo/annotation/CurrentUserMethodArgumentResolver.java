@@ -1,7 +1,7 @@
 package com.suntech.feo.annotation;
 
-import com.suntech.feo.entity.SysUserInfo;
-import com.suntech.feo.service.TokenService;
+import com.suntech.feo.dtos.SysUserDTO;
+import com.suntech.feo.service.JwtUtils;
 import com.suntech.feo.utils.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -26,12 +26,12 @@ import javax.servlet.http.HttpServletRequest;
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Autowired
-    private TokenService tokenService;
+    private JwtUtils jwtUtils;
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
 
-        return methodParameter.getParameterType().isAssignableFrom(SysUserInfo.class)
+        return methodParameter.getParameterType().isAssignableFrom(SysUserDTO.class)
                 && methodParameter.hasParameterAnnotation(CurrentUser.class);
     }
 
@@ -43,12 +43,12 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
         Object loginUserObj = request.getAttribute("loginUser");
 
         String userStr = JSONUtils.objectToJson(loginUserObj);
-        SysUserInfo loginUser = JSONUtils.fromJson(userStr, SysUserInfo.class);
+        SysUserDTO loginUser = JSONUtils.fromJson(userStr, SysUserDTO.class);
 
         if(loginUser == null){
             //拦截器为空时，尝试从请求头中获取token并解析token的值
             String token = request.getHeader("Authorization");
-            loginUser = tokenService.unSignToken(token, SysUserInfo.class);
+            loginUser =  JSONUtils.fromJson(jwtUtils.getUserFromToken(token),SysUserDTO.class);
         }
 
         if(loginUser == null){

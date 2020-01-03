@@ -1,7 +1,7 @@
-package com.suntech.feo.repository;
+package com.suntech.feo.repository.user;
 
 import com.suntech.feo.dtos.SysUserDTO;
-import com.suntech.feo.entity.SysUserEntity;
+import com.suntech.feo.entity.user.SysUserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,5 +22,10 @@ public interface SysUserRepository extends JpaRepository<SysUserEntity,String>, 
             "e.gender,e.country,e.province,e.city,e.language,e.telephone,e.username) from SysUserEntity e where e.city = ?1 and e.deleted = false")
     Page<SysUserDTO> findAllAndDeletedFalse(String city, Pageable pageable);
 
+    /**
+     * 根据用户名查找用户
+     * @param username
+     * @return
+     */
     SysUserEntity findByUsername(String username);
 }

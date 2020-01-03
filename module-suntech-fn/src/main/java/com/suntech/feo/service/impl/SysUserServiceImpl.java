@@ -1,9 +1,11 @@
 package com.suntech.feo.service.impl;
 
 import com.suntech.feo.common.RedisUtils;
+import com.suntech.feo.config.response.ResultCode;
 import com.suntech.feo.dtos.SysUserDTO;
-import com.suntech.feo.entity.SysUserEntity;
-import com.suntech.feo.repository.SysUserRepository;
+import com.suntech.feo.entity.user.SysUserEntity;
+import com.suntech.feo.exception.GlobalException;
+import com.suntech.feo.repository.user.SysUserRepository;
 import com.suntech.feo.service.SysUserService;
 import com.suntech.feo.utils.StringUtil;
 import org.slf4j.Logger;
@@ -15,6 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
@@ -36,7 +42,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private RedisUtils redisUtils;
-
 
     /**
      * findById
@@ -107,19 +112,14 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SysUserDTO login(String username, String password) {
-        SysUserEntity userEntity = sysUserRepository.findByUsername(username);
-        if(userEntity == null){
-            userEntity = new SysUserEntity();
-            userEntity.setUsername(username);
-            userEntity.setCity("shanghai");
-            userEntity.setCountry("china");
-            userEntity.setLanguage("cn");
-            userEntity.setTelephone("18171665544");
-            userEntity = sysUserRepository.save(userEntity);
+    public Authentication login(String username, String password) {
+        try {
+            //该方法会去调用userDetailsService.loadUserByUsername()去验证用户名和密码，如果正确，则存储该用户名密码到“security 的 context中”
+            return new UsernamePasswordAuthenticationToken(username, password);
+        } catch (DisabledException | BadCredentialsException e) {
+            throw new GlobalException(ResultCode.AUTH_FAILED);
         }
-        SysUserDTO dto = new SysUserDTO();
-        BeanUtils.copyProperties(userEntity,dto);
-        return dto;
     }
+
+
 }

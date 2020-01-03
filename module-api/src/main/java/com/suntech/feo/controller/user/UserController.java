@@ -5,18 +5,18 @@ import com.suntech.feo.config.response.BaseResponse;
 import com.suntech.feo.config.response.ResultCode;
 import com.suntech.feo.dtos.LoginUserDTO;
 import com.suntech.feo.dtos.SysUserDTO;
-import com.suntech.feo.entity.SysUserEntity;
-import com.suntech.feo.entity.SysUserInfo;
+import com.suntech.feo.entity.user.SysUserEntity;
 import com.suntech.feo.security.annotation.NoRepeatSubmit;
+import com.suntech.feo.service.JwtUtils;
 import com.suntech.feo.service.SysUserService;
-import com.suntech.feo.service.TokenService;
 import com.suntech.feo.vo.LoginUserVO;
 import com.suntech.feo.vo.PageConditionVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,18 +38,21 @@ public class UserController {
     private SysUserService sysUserService;
 
     @Autowired
-    private TokenService tokenService;
+    private JwtUtils jwtUtils;
 
     @ApiOperation("登录")
     @PostMapping("/login")
     @NoRepeatSubmit
     @SkipToken
     public BaseResponse<LoginUserDTO> login(@Valid LoginUserVO loginUserVO){
-        SysUserDTO entity = sysUserService.login(loginUserVO.getUsername(),loginUserVO.getPassword());
-        SysUserInfo sysUserInfo = new SysUserInfo();
-        BeanUtils.copyProperties(entity,sysUserInfo);
-        String token = tokenService.getToken(sysUserInfo);
-        LoginUserDTO result = LoginUserDTO.builder().sysUserDTO(entity).token(token).build();
+        //用户验证
+        final Authentication authentication = sysUserService.login(loginUserVO.getUsername(), loginUserVO.getPassword());
+        //存储认证信息
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //生成token
+        final SysUserDTO user = (SysUserDTO) authentication.getPrincipal();
+        final String token = jwtUtils.generateToken(user);
+        LoginUserDTO result = LoginUserDTO.builder().sysUserDTO(user).token(token).build();
         return new BaseResponse<>(ResultCode.SUCCESS, result);
     }
 

@@ -1,9 +1,10 @@
 package com.suntech.feo.service;
 
 import com.suntech.feo.dtos.SysUserDTO;
-import com.suntech.feo.entity.SysUserEntity;
+import com.suntech.feo.entity.user.SysUserEntity;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 
 /**
  * @Project : suntech
@@ -40,5 +41,5 @@ public interface SysUserService {
      */
     Page<SysUserEntity> findByCity1(String city, Integer page, Integer size);
 
-    SysUserDTO login(String username, String password);
+    Authentication login(String username, String password);
 }

@@ -2,13 +2,12 @@ package com.suntech.feo.interceptor;
 
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.suntech.feo.annotation.SkipToken;
 import com.suntech.feo.common.LoginUserContext;
 import com.suntech.feo.config.response.ResultCode;
-import com.suntech.feo.entity.SysUserInfo;
+import com.suntech.feo.dtos.SysUserDTO;
 import com.suntech.feo.exception.GlobalException;
-import com.suntech.feo.service.TokenService;
+import com.suntech.feo.service.JwtUtils;
 import com.suntech.feo.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationInterceptor.class);
 
     @Autowired
-    private TokenService tokenService;
+    private JwtUtils jwtUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) {
@@ -58,10 +57,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         } else {
             // 解密token并获取token中的信息
             try {
-                DecodedJWT decode = tokenService.unSignToken(token);
-//                String userId = decode.getAudience().get(0);
-                String userInfo = decode.getClaim("sub").asString();
-                Date expiresAt = decode.getExpiresAt();
+                String userInfo = jwtUtils.getUserFromToken(token);
+                Date expiresAt = jwtUtils.getExpirationDateFromToken(token);
                 long currTimestamp = System.currentTimeMillis();
                 long expireTimestamp = expiresAt.getTime();
                 //token过期失效
@@ -69,7 +66,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new GlobalException(ResultCode.FORBIDDEN);
                 }
                 //解析token中带的用户信息
-                SysUserInfo sysUserInfo = JSONUtils.fromJson(userInfo, SysUserInfo.class);
+                SysUserDTO sysUserInfo = JSONUtils.fromJson(userInfo, SysUserDTO.class);
                 LoginUserContext.setUserInfo(sysUserInfo);
 
             } catch (JWTDecodeException j) {

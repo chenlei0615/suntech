@@ -1,11 +1,16 @@
-package com.suntech.feo.entity;
+package com.suntech.feo.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.suntech.feo.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Project : suntech
@@ -18,10 +23,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "sys_wxuser")
-public class SysUserEntity extends BaseEntity{
-    public static String USER_TYPE_INNER = "inner";
-    public static String USER_TYPE_OUTER = "outer";
-    public static String USER_TYPE_HR = "hr";
+public class SysUserEntity extends BaseEntity implements UserDetails{
 
     @ApiModelProperty("微信名称")
     @Column(name = "nick_name",columnDefinition = "VARCHAR(255) COMMENT '微信名称' ")
@@ -64,4 +66,64 @@ public class SysUserEntity extends BaseEntity{
     @Column(name="username",columnDefinition = "VARCHAR(128) COMMENT '用户真名' ")
     private String username;
 
+    @ApiModelProperty("密码")
+    @Column(name = "password")
+    private String password;
+
+    @ApiModelProperty("最近一次修改密码日期")
+    private Date lastPasswordResetDate;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "",joinColumns = {@JoinColumn(name = "role_id")}
+    ,inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private List<SysRoleEntity> roles;
+
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public SysUserEntity(String username, String password, Collection<? extends GrantedAuthority> authorities){
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @JsonIgnore
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @JsonIgnore
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
