@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <contextName>sun-tech</contextName>
-    <property name="APP_NAME" value="app-wxapi" />
-    <property name="systemId" value="app.wxapi" />
+    <property name="APP_NAME" value="sun-tech" />
+    <property name="systemId" value="sun-tech" />
     <include resource="logback-suntech.xml"/>
     <logger name="org.springframework.boot" level="INFO" additivity="true" />
     <logger name="com.suntech" level="DEBUG" additivity="true" />
