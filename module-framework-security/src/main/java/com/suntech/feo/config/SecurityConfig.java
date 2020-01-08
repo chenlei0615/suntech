@@ -1,12 +1,10 @@
 package com.suntech.feo.config;
 
-import com.suntech.feo.interceptor.AuthenticationInterceptor;
 import com.suntech.feo.security.JwtAuthenticationEntryPoint;
 import com.suntech.feo.security.JwtAuthenticationTokenFilter;
 import com.suntech.feo.security.MyAccessDeniedHandler;
 import com.suntech.feo.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,6 +42,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private  JwtAuthenticationTokenFilter authenticationTokenFilter;
+
+    /**
+     * 需要放行的URL
+     */
+    private static final String[] AUTH_WHITELIST = {
+            // -- register url
+            "/users/signup",
+            "/users/addTask",
+            // -- swagger ui
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/open/**",
+            "/doc.html"
+            // other public endpoints of your API may be appended to this array
+    };
 
 //    /**
 //     * 驗證
@@ -90,13 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/auth").authenticated()
-                .antMatchers("/admin").hasAuthority("admin")
-                .antMatchers("/ADMIN").hasRole("ADMIN")
-                .antMatchers("/open/**").permitAll()
-                .antMatchers("/docs.html").permitAll()
-                .antMatchers("/doc.html").permitAll()
-                .antMatchers("/v2/api-docs", "/definitions/**", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagge‌​r-ui.html").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().permitAll()       // 允许所有请求通过
                 .and()
                 // 配置被拦截时的处理
@@ -107,8 +119,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/api/v1/auth", "/api/v1/signout", "/error/**", "/api/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
         // 禁用缓存
