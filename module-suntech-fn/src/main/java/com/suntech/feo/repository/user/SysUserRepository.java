@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 /**
  * @Project : suntech
@@ -28,4 +31,12 @@ public interface SysUserRepository extends JpaRepository<SysUserEntity,String>, 
      * @return
      */
     SysUserEntity findByUsername(String username);
+
+    /**
+     * 根据用户名获取用户所有的权限
+     * @param username
+     * @return
+     */
+//    Collection<GrantedAuthority> loadUserAuthorities(String username);
+
 }

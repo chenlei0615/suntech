@@ -1,6 +1,6 @@
 -- 20191218 cl
-DROP TABLE IF EXISTS `sys_wxuser`;
-CREATE TABLE `sys_wxuser` (
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
   `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
   `open_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '微信openId',
   `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '微信名称',

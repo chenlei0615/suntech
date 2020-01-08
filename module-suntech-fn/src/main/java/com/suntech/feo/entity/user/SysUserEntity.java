@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Data
 @Entity
-@Table(name = "sys_wxuser")
+@Table(name = "sys_user")
 public class SysUserEntity extends BaseEntity implements UserDetails{
 
     @ApiModelProperty("微信名称")
@@ -73,19 +73,17 @@ public class SysUserEntity extends BaseEntity implements UserDetails{
     @ApiModelProperty("最近一次修改密码日期")
     private Date lastPasswordResetDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "",joinColumns = {@JoinColumn(name = "role_id")}
-    ,inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE
+            , CascadeType.REFRESH },fetch = FetchType.LAZY)
+    @JoinTable(name="sys_user_role",
+            inverseJoinColumns=@JoinColumn(name="role_id"),
+            joinColumns=@JoinColumn(name="user_id"))
     private List<SysRoleEntity> roles;
 
+    @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public SysUserEntity(String username, String password, Collection<? extends GrantedAuthority> authorities){
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-    }
-
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

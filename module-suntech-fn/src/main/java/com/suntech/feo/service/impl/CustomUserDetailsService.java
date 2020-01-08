@@ -1,4 +1,4 @@
-package com.suntech.feo.security;
+package com.suntech.feo.service.impl;
 
 import com.suntech.feo.entity.user.SysRoleEntity;
 import com.suntech.feo.entity.user.SysUserEntity;
@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import java.util.List;
  * @Create Date : 2020年01月03日 11:02
  * ------------ -------------- ---------------------------------
  */
-@Component(value="CustomUserDetailsService")
+@Service("CustomUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
     private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 

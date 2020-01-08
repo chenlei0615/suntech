@@ -35,6 +35,7 @@ public class SwaggerConfig {
     @Bean
     public Docket createAPI() {
         String path = env.equals("local") ? "/" : "/api/v1";
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enableSwagger)
                 .forCodeGeneration(true)

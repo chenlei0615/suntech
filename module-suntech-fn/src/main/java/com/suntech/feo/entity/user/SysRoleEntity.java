@@ -1,14 +1,13 @@
 package com.suntech.feo.entity.user;
 
 import com.suntech.feo.entity.BaseEntity;
+import com.suntech.feo.entity.menu.SysMenuEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Project : suntech
@@ -22,10 +21,18 @@ import java.util.List;
 @Table(name = "sys_role")
 @Entity
 public class SysRoleEntity extends BaseEntity {
+
     @ApiModelProperty(name = "角色名称")
     @Column(name = "role_name")
     private String roleName;
 
-    @ManyToMany
-    private List<SysUserEntity> users;
+    @ApiModelProperty("角色相关用户")
+    @ManyToMany(cascade=CascadeType.REFRESH,mappedBy="roles")
+    private Set<SysUserEntity> users = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JoinTable(name = "sys_role_menu",joinColumns = @JoinColumn(name = "role_id")
+            ,inverseJoinColumns = @JoinColumn(name = "menu_id"))
+    private Set<SysMenuEntity> menus = new HashSet<>();
+
 }
