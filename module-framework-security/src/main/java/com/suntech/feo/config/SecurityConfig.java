@@ -5,6 +5,7 @@ import com.suntech.feo.security.JwtAuthenticationTokenFilter;
 import com.suntech.feo.security.MyAccessDeniedHandler;
 import com.suntech.feo.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -58,28 +59,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            "/open/**",
-            "/doc.html"
-            // other public endpoints of your API may be appended to this array
+            "/doc.html",
+            // system open
+//            "/open/**",
+            "/user/login"
+
     };
 
-//    /**
-//     * 驗證
-//     * @param unauthorizedHandler 认证失败处理类
-//     * @param accessDeniedHandler 权限不足处理类
-//     * @param customUserDetailsService 实现了DetailsService接口，用来做登陆验证
-//     * @param authenticationTokenFilter  token过滤器来验证token有效性
-//     */
-//    @Autowired
-//    public void WebSecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler,
-//                                  @Qualifier("MyAccessDeniedHandler") MyAccessDeniedHandler accessDeniedHandler,
-//                             @Qualifier("CustomUserDetailsService") CustomUserDetailsService customUserDetailsService,
-//                             JwtAuthenticationTokenFilter authenticationTokenFilter) {
-//        this.unauthorizedHandler = unauthorizedHandler;
-//        this.CustomUserDetailsService = customUserDetailsService;
-//        this.myAccessDeniedHandler = accessDeniedHandler;
-//        this.authenticationTokenFilter = authenticationTokenFilter;
-//    }
+    /**
+     * 验证
+     * @param unauthorizedHandler 认证失败处理类
+     * @param accessDeniedHandler 权限不足处理类
+     * @param customUserDetailsService 实现了DetailsService接口，用来做登陆验证
+     * @param authenticationTokenFilter  token过滤器来验证token有效性
+     */
+    @Autowired
+    public void WebSecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler,
+                                  @Qualifier("MyAccessDeniedHandler") MyAccessDeniedHandler accessDeniedHandler,
+                             @Qualifier("CustomUserDetailsService") CustomUserDetailsService customUserDetailsService,
+                             JwtAuthenticationTokenFilter authenticationTokenFilter) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.CustomUserDetailsService = customUserDetailsService;
+        this.myAccessDeniedHandler = accessDeniedHandler;
+        this.authenticationTokenFilter = authenticationTokenFilter;
+    }
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -90,10 +93,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-//    @Bean
-//    public AuthenticationInterceptor authenticationInterceptor() {
-//        return new AuthenticationInterceptor();
-//    }
 
     /**
      * 装载BCrypt密码编码器

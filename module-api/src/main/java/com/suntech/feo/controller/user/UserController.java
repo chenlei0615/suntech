@@ -42,7 +42,7 @@ public class UserController {
 
     @ApiOperation("登录")
     @PostMapping("/login")
-    @NoRepeatSubmit
+//    @NoRepeatSubmit
     @SkipToken
     public BaseResponse<LoginUserDTO> login(@Valid LoginUserVO loginUserVO){
         //用户验证
@@ -50,7 +50,7 @@ public class UserController {
         //存储认证信息
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成token
-        final SysUserDTO user = (SysUserDTO) authentication.getPrincipal();
+        final SysUserDTO user = (SysUserDTO) authentication;
         final String token = jwtUtils.generateToken(user);
         LoginUserDTO result = LoginUserDTO.builder().sysUserDTO(user).token(token).build();
         return new BaseResponse<>(ResultCode.SUCCESS, result);

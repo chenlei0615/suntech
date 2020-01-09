@@ -1,14 +1,9 @@
 package com.suntech.feo.config;
 
 import com.google.common.collect.Lists;
-import com.suntech.feo.service.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -40,12 +35,9 @@ public class SwaggerConfig{
     @Value("${spring.profiles.active}")
     private String env ;
 
-    @Autowired
-    private JwtUtils jwtUtils;
-
     @Bean
     public Docket createAPI() {
-        String path = env.equals("local") ? "/**" : "/api/v1";
+//        String path = env.equals("local") ? "/**" : "/api/v1";
 // jwt验证解决
         ParameterBuilder pb = new ParameterBuilder();
         List<Parameter> token = new ArrayList<>();
@@ -62,9 +54,9 @@ public class SwaggerConfig{
                 .build()
 //                .pathMapping(path)
                 .apiInfo(apiInfo())
-//                .securitySchemes(Lists.newArrayList(apiKey()))
-//                .securityContexts(securityContexts())
-                .globalOperationParameters(token);
+                .securitySchemes(Lists.newArrayList(apiKey()))
+                .securityContexts(securityContexts());
+//                .globalOperationParameters(token);
     }
 
     private ApiInfo apiInfo() {
