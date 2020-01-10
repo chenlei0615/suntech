@@ -43,14 +43,14 @@ public class JwtUtils implements Serializable {
 
 
     public String getUserFromToken(String token) {
-        String username;
+        String user;
         try {
             final Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            user = claims.getSubject();
         } catch (Exception e) {
-            username = null;
+            user = null;
         }
-        return username;
+        return user;
     }
 
     public String getUsernameFromToken(String token) {
