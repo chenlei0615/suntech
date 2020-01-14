@@ -61,8 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/doc.html",
             // system open
-//            "/open/**",
-            "/user/login"
+            "/open/**",
+            "/user/login",
+             "/user/register"
 
     };
 
@@ -87,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                // 设置UserDetailsService
+                // 设置UserDetailsService 获取user对象
                 .userDetailsService(this.CustomUserDetailsService)
                 // 使用BCrypt进行密码的hash
                 .passwordEncoder(passwordEncoder());
@@ -108,6 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
+//                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
                 .anyRequest().permitAll()       // 允许所有请求通过
                 .and()
                 // 配置被拦截时的处理

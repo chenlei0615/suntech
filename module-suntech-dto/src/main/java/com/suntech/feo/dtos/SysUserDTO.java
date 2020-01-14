@@ -1,6 +1,5 @@
 package com.suntech.feo.dtos;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,10 +45,10 @@ public class SysUserDTO {
     @ApiModelProperty("语种")
     private String language;
 
-
     @ApiModelProperty("电话号")
     private String telephone;
 
     @ApiModelProperty("用户真名")
     private String username;
+
 }

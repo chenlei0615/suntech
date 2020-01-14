@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * @Project : suntech
  * @Package Name : com.suntech.feo.config
- * @Description :  token校验
+ * @Description : 前端携带jwt的token来访问接口，验证令牌的合法性，如果令牌合法，则获取用户信息，并且存入SecurityContextHolder
  * @Author : chenlei
  * @Create Date : 2020年01月03日 10:57
  * ------------ -------------- ---------------------------------

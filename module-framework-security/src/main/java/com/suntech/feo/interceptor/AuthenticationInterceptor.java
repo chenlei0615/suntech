@@ -89,6 +89,5 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                                 HttpServletResponse httpServletResponse,
                                 Object o, Exception e) {
         LoginUserContext.removeUser();
-
     }
 }

@@ -2,12 +2,18 @@ package com.suntech.feo.service.impl;
 
 import com.suntech.feo.common.RedisUtils;
 import com.suntech.feo.config.response.ResultCode;
+import com.suntech.feo.dtos.LoginUserDTO;
+import com.suntech.feo.dtos.SysRoleDTO;
 import com.suntech.feo.dtos.SysUserDTO;
+import com.suntech.feo.entity.user.SysRoleEntity;
 import com.suntech.feo.entity.user.SysUserEntity;
 import com.suntech.feo.exception.GlobalException;
 import com.suntech.feo.repository.user.SysUserRepository;
 import com.suntech.feo.service.SysUserService;
 import com.suntech.feo.utils.StringUtil;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.criteria.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -20,10 +26,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.criteria.Predicate;
 
 /**
  * @Project : suntech
@@ -112,13 +116,52 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Authentication login(String username, String password) {
+    public UsernamePasswordAuthenticationToken login(String username, String password) {
         try {
             //该方法会去调用userDetailsService.loadUserByUsername()去验证用户名和密码，如果正确，则存储该用户名密码到“security 的 context中”
             return new UsernamePasswordAuthenticationToken(username, password);
         } catch (DisabledException | BadCredentialsException e) {
             throw new GlobalException(ResultCode.AUTH_FAILED);
         }
+    }
+
+    /**
+     * save
+     * @param user
+     * @return
+     */
+    @Override
+    public SysUserEntity save(SysUserEntity user) {
+        return sysUserRepository.save(user);
+    }
+
+    /**
+     * 注册
+     * @param username
+     * @param password
+     * @return
+     */
+    @Override
+    public LoginUserDTO register(String username, String password) {
+
+        SysUserEntity user = new SysUserEntity();
+        user.setUsername(username);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+
+        List<SysRoleEntity> roleEntities = new ArrayList<SysRoleEntity>(){{
+            add(new SysRoleEntity("ROLE_USER"));
+        }};
+        user.setRoles(roleEntities);
+        sysUserRepository.save(user);
+
+        List<SysRoleDTO> roleDTOS = new ArrayList<SysRoleDTO>(){{
+            add(new SysRoleDTO("ROLE_USER"));
+        }};
+        SysUserDTO dto = new SysUserDTO();
+        BeanUtils.copyProperties(user,dto);
+        LoginUserDTO loginUserDTO = LoginUserDTO.builder().sysUserDTO(dto).build();
+        return loginUserDTO;
     }
 
 

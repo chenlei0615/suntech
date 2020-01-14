@@ -3,11 +3,13 @@ package com.suntech.feo.entity.user;
 import com.suntech.feo.entity.BaseEntity;
 import com.suntech.feo.entity.menu.SysMenuEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.NoArgsConstructor;
 
 /**
  * @Project : suntech
@@ -20,6 +22,8 @@ import java.util.Set;
 @Data
 @Table(name = "sys_role")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysRoleEntity extends BaseEntity {
 
     @ApiModelProperty(name = "角色名称")
@@ -35,4 +39,7 @@ public class SysRoleEntity extends BaseEntity {
             ,inverseJoinColumns = @JoinColumn(name = "menu_id"))
     private Set<SysMenuEntity> menus = new HashSet<>();
 
+    public SysRoleEntity(String roleName) {
+        this.roleName = roleName;
+    }
 }

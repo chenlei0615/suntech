@@ -3,14 +3,21 @@ package com.suntech.feo.entity.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.suntech.feo.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @Project : suntech
@@ -74,7 +81,7 @@ public class SysUserEntity extends BaseEntity implements UserDetails{
     private Date lastPasswordResetDate;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE
-            , CascadeType.REFRESH },fetch = FetchType.LAZY)
+            , CascadeType.REFRESH },fetch = FetchType.EAGER)
     @JoinTable(name="sys_user_role",
             inverseJoinColumns=@JoinColumn(name="role_id"),
             joinColumns=@JoinColumn(name="user_id"))
